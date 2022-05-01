@@ -114,7 +114,17 @@ def calculate_stock_data(data):
         stock_num = average * 1.1
         new_stock_data.append(round(stock_num))
 
-    return new_stock_data 
+    return new_stock_data
+
+
+def get_stock_values(data):
+    """
+    Calculate the required stock for each item type in next market.
+    """
+    headings = SHEET.worksheet("stock").row_values(1)
+    new_stock_values = dict(zip(headings, data))
+
+    return new_stock_values
 
 
 def main():
@@ -129,6 +139,8 @@ def main():
     sales_columns = get_last_5_entries_sales()
     stock_data = calculate_stock_data(sales_columns)
     update_worksheet(stock_data, "stock")
+    stock_values = get_stock_values(stock_data)
+    print(stock_values)
 
 
 print("Welcome to Love Sandwiches Data Automation")
